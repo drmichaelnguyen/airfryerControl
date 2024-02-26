@@ -1,0 +1,45 @@
+<script>
+// Function to retrieve the last recorded usage timestamp from localStorage
+function getLastUseTimestamp() {
+  const lastUseTimestamp = localStorage.getItem('lastAirfryerUse');
+
+  // If a timestamp exists, convert it back into a Date object
+  return lastUseTimestamp ? new Date(lastUseTimestamp) : null;
+}
+
+// Function to record the current timestamp in localStorage
+function setLastUseTimestamp() {
+  const now = new Date();
+
+  // Store the timestamp in a standard format (ISO String) for consistency
+  localStorage.setItem('lastAirfryerUse', now.toISOString());
+}
+
+// Handles the main logic for Airfryer usage and cooldown
+function handleAirfryerUsage() {
+  const AIRFRYER_COOLDOWN = 65 * 60 * 1000; // 65 minutes in milliseconds
+
+  const lastUseTimestamp = getLastUseTimestamp();
+  const now = new Date();
+
+  // Check if Airfryer is within its cooldown period
+  if (lastUseTimestamp && now - lastUseTimestamp < AIRFRYER_COOLDOWN) {
+    displayUsageMessage(lastUseTimestamp);
+  } else {
+    // Airfryer is available!
+    setLastUseTimestamp(); // Record the current usage time
+    // ... your code to turn on the device goes here
+  }
+}
+
+// Displays a message indicating the Airfryer is in use
+function displayUsageMessage(lastUseTimestamp) {
+  const oneHourAfterUse = new Date(lastUseTimestamp.getTime() + 65 * 60 * 1000);
+  const message = `Other user is using the Airfryer, please come back after ${oneHourAfterUse.toLocaleString()}. Thanks for your patience!`;
+
+  // ... code to display the message and optionally hide the button
+}
+
+// Add an event listener to trigger the usage logic when the button is clicked
+document.getElementById('airfryerButton').addEventListener('click', handleAirfryerUsage);
+</script>
