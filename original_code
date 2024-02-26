@@ -1,0 +1,43 @@
+<script>
+// Your JavaScript code here
+console.log('Hello, world!');
+window.onload = function() {
+  var tab_4487 = document.getElementById('4487'); 
+tab_4487.style.display='none'
+  console.log(tab_4487); 
+
+  if (tab_4487 && tab_4487.rows.length > 0 && tab_4487.rows[1].cells.length > 0) {
+    var firstCell = tab_4487.rows[1].cells[0]; 
+    var firstCellContent = firstCell.textContent || firstCell.innerText; // Get the content of the first cell
+    console.log(firstCellContent); // Log the value of the first cell
+
+    var button = document.getElementById('wpforms-submit-4372');
+
+    // Create a new div element for the "Last use" message
+    var lastUseDiv = document.createElement('div');
+    lastUseDiv.textContent = "Last use: " + firstCellContent; // Set the text content to "Last use" and the first cell content
+    // Append the "Last use" div to the body or near the button
+    document.body.appendChild(lastUseDiv); // Or use button.parentNode.insertBefore(lastUseDiv, button); to place it near the button
+
+    // Continue with your existing logic
+    var firstCellDate = new Date(firstCellContent);
+    var now = new Date();
+    var differenceInMS = now.getTime() - firstCellDate.getTime();
+    var differenceInHours = differenceInMS / (1000 * 60 * 60);
+    var oneHourAfterFirstCellDate = new Date(firstCellDate.getTime() + (65 * 60 * 1000)); // firstCellDate + 1 hour
+
+
+    if (differenceInHours <= 1) {
+      var message = document.createElement('div');
+      message.textContent = "Other user is using the Airfryer, please come back after " +oneHourAfterFirstCellDate + " , thanks for your patience";
+      message.style.color = 'red'; // Optional: style the message
+      button.parentNode.insertBefore(message, button.nextSibling);
+      button.style.display = 'none'; // Optional: hide the button if desired
+    }
+
+  } else {
+    console.log('Table is empty, does not exist, or the first row has no cells');
+  }
+  console.log('good');
+};
+</script>
